@@ -3,6 +3,7 @@ import { recipes } from "../data/dummyData";
 
 const Home = () => {
   const [recipe, setRecipe] = useState({
+    id: Date.now(),
     name: "",
     ingredients: "",
     instructions: "",
@@ -20,7 +21,11 @@ const Home = () => {
   };
 
   useEffect(() => {
-    setRecipeList(JSON.parse(localStorage.getItem("recipe")));
+    if (localStorage.getItem("recipe") !== null) {
+      setRecipeList(JSON.parse(localStorage.getItem("recipe")));
+    } else {
+      setRecipeList(recipes);
+    }
   }, []);
 
   console.log(recipeList);
@@ -28,6 +33,7 @@ const Home = () => {
     <div>
       <h1>DIY Recipes!</h1>
       <h3>Lets practice! Try adding a recipe below</h3>
+
       <form onSubmit={onSubmit}>
         <label htmlFor="name">Recipe Name</label>
         <input
@@ -54,10 +60,10 @@ const Home = () => {
           value={recipe.instructions}
           onChange={changeHandler}
         />
-        <button>Log in</button>
+        <button>Add</button>
       </form>
       {recipeList?.map((item) => (
-        <div>
+        <div key={item.id}>
           <h2>{item.name}</h2>
           <p>{item.ingredients}</p>
           <p>{item.instructions}</p>
