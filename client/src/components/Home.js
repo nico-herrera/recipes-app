@@ -14,6 +14,7 @@ const Home = () => {
     cookTime: 60,
   });
   const [recipeList, setRecipeList] = useState(recipes);
+  const [isLoading, setIsLoading] = useState(false);
 
   const changeHandler = (e) => {
     setRecipe({ ...recipe, [e.target.name]: e.target.value });
@@ -27,10 +28,13 @@ const Home = () => {
   };
 
   useEffect(() => {
+    setIsLoading(true);
     if (localStorage.getItem("recipe") !== null) {
       setRecipeList(JSON.parse(localStorage.getItem("recipe")));
+      setIsLoading(false);
     } else {
       setRecipeList(recipes);
+      setIsLoading(false);
     }
   }, []);
 
@@ -41,6 +45,10 @@ const Home = () => {
   };
 
   console.log(recipeList);
+
+  if (isLoading) {
+    return <div>Getting your recipes</div>;
+  }
   return (
     <div>
       <h1>DIY Recipes!</h1>
