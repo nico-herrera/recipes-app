@@ -1,0 +1,18 @@
+.recipe-card-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: row wrap;
+}
+
+.recipe-card {
+  border: 1px solid black;
+  margin: 5px;
+  background-color: white;
+  height: 250px;
+  width: 300px;
+}
+
+.recipe-card:hover {
+  background-color: aliceblue;
+}

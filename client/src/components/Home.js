@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { recipes } from "../data/dummyData";
+import RecipeCard from "./RecipeCard";
+import EditMenu from "./EditMenu";
+
+import "../styles/Home.css";
 
 const Home = () => {
   const [recipe, setRecipe] = useState({
@@ -7,6 +11,7 @@ const Home = () => {
     name: "",
     ingredients: "",
     instructions: "",
+    cookTime: 60,
   });
   const [recipeList, setRecipeList] = useState(recipes);
 
@@ -18,6 +23,7 @@ const Home = () => {
     e.preventDefault();
     setRecipeList([...recipeList, recipe]);
     localStorage.setItem("recipe", JSON.stringify([...recipeList, recipe]));
+    console.log(localStorage.getItem("recipe"));
   };
 
   useEffect(() => {
@@ -27,6 +33,12 @@ const Home = () => {
       setRecipeList(recipes);
     }
   }, []);
+
+  const deleteRecipe = (recipe) => {
+    const filter = recipeList.filter((item) => item.id !== recipe.id);
+    localStorage.setItem("recipe", JSON.stringify([...filter]));
+    setRecipeList(filter);
+  };
 
   console.log(recipeList);
   return (
@@ -43,32 +55,58 @@ const Home = () => {
           value={recipe.name}
           onChange={changeHandler}
         />
-        <label>Ingredients</label>
+        <br />
+        <label htmlFor="ingredients">Ingredients</label>
         <input
           type="ingredients"
-          placeholder="Cheese, duh!"
+          placeholder="Cheese!"
           id="ingredients"
           name="ingredients"
           value={recipe.ingredients}
           onChange={changeHandler}
         />
+        <br />
+        <label htmlFor="instructions">Instructions</label>
         <input
           type="instructions"
-          placeholder="Cook it?"
+          placeholder="Bake it on 450"
           id="instructions"
           name="instructions"
           value={recipe.instructions}
           onChange={changeHandler}
         />
+
+        <br />
+        <label htmlFor="cookTime">Cook Time</label>
+        <input
+          type="number"
+          placeholder="How long?"
+          id="cookTime"
+          name="cookTime"
+          value={recipe.cookTime}
+          onChange={changeHandler}
+        />
+        <br />
+        <input
+          type="range"
+          min="0"
+          max="600"
+          id="cookTime"
+          name="cookTime"
+          value={recipe.cookTime}
+          onChange={changeHandler}
+        />
+
+        <br />
         <button>Add</button>
       </form>
-      {recipeList?.map((item) => (
-        <div key={item.id}>
-          <h2>{item.name}</h2>
-          <p>{item.ingredients}</p>
-          <p>{item.instructions}</p>
-        </div>
-      ))}
+      <RecipeCard
+        setRecipe={setRecipe}
+        setRecipeList={setRecipeList}
+        recipe={recipe}
+        recipeList={recipeList}
+        deleteRecipe={deleteRecipe}
+      />
     </div>
   );
 };
