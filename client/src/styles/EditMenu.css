@@ -1,0 +1,14 @@
+.edit-menu {
+  border: 1px solid black;
+  height: 250px;
+  width: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 5px;
+  background-color: #e0e0e0;
+}
+
+.edit-menu:hover {
+  background-color: lightgreen;
+}
